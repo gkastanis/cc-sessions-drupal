@@ -7,11 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-11-13
+
 ### Added
-- Initial packaging for PyPI and npm distribution
-- Comprehensive README with usage examples
-- Installation guide (INSTALL.md)
-- Contributing guidelines (CONTRIBUTING.md)
+- **Sensitive file protection**: Automatic blocking of Read/Grep access to sensitive files
+  - Environment files (.env*)
+  - Drupal settings files (settings*.php)
+  - SSH keys and certificates
+  - Configurable via `sensitive-files.json`
+- Pre-tool hook (`drupal-sensitive-files.js`) for file access control
+- Allowlist support for exceptions
+- Warning-only mode for database dumps
+
+### Changed
+- Installation now includes sensitive-files.json configuration
+- Added hooks directory to installation process
+
+### Security
+- Prevents accidental exposure of credentials during code reviews
+- Blocks agent access to sensitive Drupal configuration files
 
 ## [0.1.0] - 2025-11-13
 

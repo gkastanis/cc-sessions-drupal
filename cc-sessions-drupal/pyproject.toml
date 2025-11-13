@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cc-sessions-drupal"
-version = "0.1.0"
+version = "0.1.1"
 description = "Drupal-optimized extension for cc-sessions with quality gates, task templates, and specialized agents"
 readme = "README.md"
 license = {text = "MIT"}

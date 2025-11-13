@@ -212,6 +212,36 @@ function initializeState(sessionsDir) {
   log('   ✅ Initialized Drupal state', 'green');
 }
 
+function installSensitiveFiles(extensionRoot, sessionsDir) {
+  log('🔒 Installing sensitive files configuration...', 'blue');
+
+  const extensionDir = path.join(sessionsDir, 'extensions', 'drupal');
+  const srcFile = path.join(extensionRoot, 'templates', 'sensitive-files.json');
+  const destFile = path.join(extensionDir, 'sensitive-files.json');
+
+  if (!fs.existsSync(extensionDir)) {
+    fs.mkdirSync(extensionDir, { recursive: true });
+  }
+
+  fs.copyFileSync(srcFile, destFile);
+  log('   ✅ Sensitive files configuration installed', 'green');
+}
+
+function installHooks(extensionRoot, sessionsDir) {
+  log('🪝 Installing Drupal hooks...', 'blue');
+
+  const srcFile = path.join(extensionRoot, 'javascript', 'hooks', 'drupal-sensitive-files.js');
+  const destDir = path.join(sessionsDir, 'hooks');
+  const destFile = path.join(destDir, 'drupal-sensitive-files.js');
+
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
+
+  fs.copyFileSync(srcFile, destFile);
+  log('   ✅ Sensitive files hook installed', 'green');
+}
+
 function setupDocumentation(extensionRoot, sessionsDir) {
   log('📖 Setting up documentation...', 'blue');
 
@@ -279,6 +309,8 @@ function main() {
     installAgents(extensionRoot, sessionsDir);
     installCommands(extensionRoot, sessionsDir);
     installLibraries(extensionRoot, sessionsDir);
+    installSensitiveFiles(extensionRoot, sessionsDir);
+    installHooks(extensionRoot, sessionsDir);
 
     log('', 'reset');
 

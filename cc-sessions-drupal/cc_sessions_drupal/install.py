@@ -187,6 +187,33 @@ def initialize_state(sessions_dir):
     print('   ✅ Initialized Drupal state')
 
 
+def install_sensitive_files(extension_root, sessions_dir):
+    """Install sensitive files configuration."""
+    print('🔒 Installing sensitive files configuration...')
+
+    extension_dir = sessions_dir / 'extensions' / 'drupal'
+    extension_dir.mkdir(parents=True, exist_ok=True)
+
+    src_file = extension_root / 'templates' / 'sensitive-files.json'
+    dest_file = extension_dir / 'sensitive-files.json'
+
+    shutil.copy2(src_file, dest_file)
+    print('   ✅ Sensitive files configuration installed')
+
+
+def install_hooks(extension_root, sessions_dir):
+    """Install Drupal hooks."""
+    print('🪝 Installing Drupal hooks...')
+
+    src_file = extension_root / 'javascript' / 'hooks' / 'drupal-sensitive-files.js'
+    dest_dir = sessions_dir / 'hooks'
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    dest_file = dest_dir / 'drupal-sensitive-files.js'
+    shutil.copy2(src_file, dest_file)
+    print('   ✅ Sensitive files hook installed')
+
+
 def setup_documentation(extension_root, sessions_dir):
     """Setup documentation."""
     print('📖 Setting up documentation...')
@@ -252,6 +279,8 @@ def main():
         install_agents(extension_root, sessions_dir)
         install_commands(extension_root, sessions_dir)
         install_libraries(extension_root, sessions_dir)
+        install_sensitive_files(extension_root, sessions_dir)
+        install_hooks(extension_root, sessions_dir)
 
         print()
 

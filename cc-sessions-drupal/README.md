@@ -34,6 +34,13 @@ Quick Drupal operations:
 ### 📊 State Tracking
 Extended state management for Drupal-specific workflow tracking
 
+### 🔒 Sensitive File Protection
+Automatic blocking of Read/Grep access to sensitive files:
+- Environment files (.env*)
+- Drupal settings (settings*.php)
+- SSH keys and certificates
+- Database dumps (warning only)
+
 ## Installation
 
 ### Prerequisites
@@ -202,6 +209,44 @@ User: "commit and create PR"
 ```
 
 Claude handles git operations and PR creation.
+
+## Sensitive File Protection
+
+cc-sessions-drupal automatically blocks access to sensitive files to prevent accidental credential exposure:
+
+**Protected by default:**
+- `.env` and `.env.*` files
+- `settings.php` and variant files
+- SSH keys (id_rsa, id_ed25519)
+- Certificates (.pem, .crt, .key)
+
+**Warning only (not blocked):**
+- SQL dumps (.sql, .dump)
+- Backup files (.backup)
+
+### Customizing Protected Files
+
+Edit `sessions/extensions/drupal/sensitive-files.json`:
+
+```json
+{
+  "patterns": {
+    "custom_patterns": [
+      "my_secret_config\\.php$",
+      "local\\.settings\\.php$"
+    ]
+  },
+  "allowlist": [
+    "sites/default/default.settings.php"
+  ]
+}
+```
+
+**To allow a blocked file:**
+Add to the `allowlist` array.
+
+**To block additional files:**
+Add regex patterns to `custom_patterns`.
 
 ## Configuration
 
@@ -403,6 +448,27 @@ ls sessions/templates/task-drupal/
 pipx reinstall cc-sessions-drupal
 # or
 npx cc-sessions-drupal
+```
+
+### Sensitive File Blocked (But You Need Access)
+
+**Error:** `🔒 Access Blocked: Sensitive File`
+
+**Solution:**
+
+Add file to allowlist in `sessions/extensions/drupal/sensitive-files.json`:
+
+```json
+{
+  "allowlist": [
+    "path/to/your/file.php"
+  ]
+}
+```
+
+Or disable the hook by removing:
+```bash
+rm sessions/hooks/drupal-sensitive-files.js
 ```
 
 ## Contributing

@@ -1,6 +1,6 @@
 {
   "name": "cc-sessions-drupal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Drupal-optimized extension for cc-sessions with quality gates, task templates, and specialized agents",
   "type": "commonjs",
   "main": "./javascript/install.js",
@@ -52,7 +52,10 @@
     "docs/",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "INSTALL.md",
+    "CONTRIBUTING.md",
+    "DISTRIBUTION.md"
   ],
   "peerDependencies": {
     "cc-sessions": ">=0.3.0"
